@@ -2,7 +2,7 @@
 #include "kernel/stat.h"
 #include "user/user.h"
 
-#define MAX 36
+#define MAX 300
 #define FIRST_PRIME 2
 
 
