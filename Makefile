@@ -198,9 +198,7 @@ UPROGS=\
 	$U/_xargs\
 	$U/_pingpong\
 	$U/_primes\
-
-
-
+	$U/_trace
 
 ifeq ($(LAB),syscall)
 UPROGS += \

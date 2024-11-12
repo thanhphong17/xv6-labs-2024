@@ -38,7 +38,7 @@ main(int argCount, char *argValue[])
 			continue;
 		}
 
-		if (blanks) {  // 之前有过空格
+		if (blanks) {
 			buf[offset++] = 0;
 
 			v[c++] = p;

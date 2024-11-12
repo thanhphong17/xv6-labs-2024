@@ -5,8 +5,6 @@
 #define MAX 300
 #define FIRST_PRIME 2
 
-
-
 int
 generate_natural() {
 	int out_pipe[2];
