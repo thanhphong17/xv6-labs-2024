@@ -198,7 +198,8 @@ UPROGS=\
 	$U/_xargs\
 	$U/_pingpong\
 	$U/_primes\
-	$U/_trace
+	$U/_trace\
+	$U/_sysinfotest
 
 ifeq ($(LAB),syscall)
 UPROGS += \

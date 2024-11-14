@@ -5,6 +5,31 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "sysinfo.h"
+
+// To collect the amount of free memory, add a function to kernel/kalloc.c
+extern uint64 freebytes(void);
+// To collect the number of processes, add a function to kernel/proc.c
+extern uint64 procnum(void);
+
+uint64
+sys_sysinfo(void)
+{
+
+  struct sysinfo _sysinfo;
+  _sysinfo.freemem = freebytes();
+  _sysinfo.nproc = procnum();
+
+  uint64 destaddr;
+  argaddr(0, &destaddr);
+
+  if (copyout(myproc()->pagetable, destaddr, (char *)&_sysinfo, sizeof _sysinfo) < 0)
+  {
+    return -1;
+  }
+
+  return 0;
+}
 
 uint64
 sys_exit(void)
@@ -12,7 +37,7 @@ sys_exit(void)
   int n;
   argint(0, &n);
   exit(n);
-  return 0;  // not reached
+  return 0; // not reached
 }
 
 uint64
@@ -43,7 +68,7 @@ sys_sbrk(void)
 
   argint(0, &n);
   addr = myproc()->sz;
-  if(growproc(n) < 0)
+  if (growproc(n) < 0)
     return -1;
   return addr;
 }
@@ -55,12 +80,14 @@ sys_sleep(void)
   uint ticks0;
 
   argint(0, &n);
-  if(n < 0)
+  if (n < 0)
     n = 0;
   acquire(&tickslock);
   ticks0 = ticks;
-  while(ticks - ticks0 < n){
-    if(killed(myproc())){
+  while (ticks - ticks0 < n)
+  {
+    if (killed(myproc()))
+    {
       release(&tickslock);
       return -1;
     }
@@ -93,9 +120,10 @@ sys_uptime(void)
 }
 
 uint64
-sys_trace(void){
+sys_trace(void)
+{
   int mask;
   argint(0, &mask);
-  myproc()->trace_mask=mask;
+  myproc()->trace_mask = mask;
   return 0;
 }
